@@ -20,8 +20,8 @@ const (
 
 // parseTraining принимает строку с данными и возвращает количество шагов, тип активности, время активности
 func parseTraining(data string) (int, string, time.Duration, error) {
-	separator := ","
-	sliceData := strings.Split(data, separator)
+	dataWithoutSpaces := strings.Replace(data, " ", "", -1)
+	sliceData := strings.Split(dataWithoutSpaces, ",")
 	if len(sliceData) != 3 {
 		fmt.Println("Неверная длина слайса")
 		return 0, "", 0, fmt.Errorf("неверная длина данных")
@@ -41,9 +41,9 @@ func parseTraining(data string) (int, string, time.Duration, error) {
 		return 0, "", 0, err
 	}
 	if activityDuration <= 0 {
-		fmt.Println("Неверное время")
-		return 0, "", 0, err
-	}
+    fmt.Println("Неверное время")
+    return 0, "", 0, fmt.Errorf("продолжительность не может быть отрицательной или нулевой")
+    }
 	typeActivity := sliceData[1]
 	return countSteps, typeActivity, activityDuration, nil
 }
