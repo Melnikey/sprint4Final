@@ -6,6 +6,7 @@ import (
 	"strings"
 	"time"
 	"github.com/sprint4Final/tracker/internal/spentcalories"
+	"log"
 
 
 )
@@ -39,26 +40,31 @@ func parsePackage(data string) (int, time.Duration, error) {
 		fmt.Println("Ошибка преобразования:", err)
 		return 0, 0, err
 	}
+	if walkDuration <= 0 {
+		fmt.Println("Неверное время")
+		return 0, 0, fmt.Errorf("неверное время")
+	}
 	return countSteps, walkDuration, nil
 }
 
 // DayActionInfo вычисляет дистанцию в километрах и количество потраченных калорий
 func DayActionInfo(data string, weight, height float64) string {
-	countSteps, walkDuration, err := parsePackage(data)
+    countSteps, walkDuration, err := parsePackage(data)
     if err != nil {
-        fmt.Println("Ошибка:", err)
+        log.Printf("Ошибка при парсинге данных: %v\n", err)
         return ""
     }
-	if countSteps <= 0 {
-		fmt.Println("Неверное количество шагов")
-		return ""
-	}
-	distance := stepLength * float64(countSteps)
-	distance = distance / float64(mInKm)
-	calories, err := spentcalories.WalkingSpentCalories(countSteps,weight,height,walkDuration)
-		if err != nil {
-        fmt.Println("Ошибка:", err)
+    if countSteps <= 0 {
+        log.Println("Неверное количество шагов")
         return ""
-	}
-	return fmt.Sprintf("Количество шагов: %d.\nДистанция составила %.2f км.\nВы сожгли %.2f ккал.", countSteps, distance, calories)
+    }
+    distance := stepLength * float64(countSteps)
+    distance = distance / float64(mInKm)
+    calories, err := spentcalories.WalkingSpentCalories(countSteps, weight, height, walkDuration)
+    if err != nil {
+        log.Printf("Ошибка при расчёте сожжённых калорий: %v\n", err)
+        return ""
+    }
+    return fmt.Sprintf("Количество шагов: %d.\nДистанция составила %.2f км.\nВы сожгли %.2f ккал.\n", countSteps, distance, calories)
 }
+
