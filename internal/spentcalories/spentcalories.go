@@ -40,6 +40,10 @@ func parseTraining(data string) (int, string, time.Duration, error) {
 		fmt.Println("Ошибка преобразования:", err)
 		return 0, "", 0, err
 	}
+	if activityDuration <= 0 {
+		fmt.Println("Неверное время")
+		return 0, "", 0, err
+	}
 	typeActivity := sliceData[1]
 	return countSteps, typeActivity, activityDuration, nil
 }
