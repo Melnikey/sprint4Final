@@ -35,10 +35,6 @@ func parseTraining(data string) (int, string, time.Duration, error) {
 		fmt.Println("Неверное количество шагов")
 		return 0, "", 0, fmt.Errorf("количество шагов должно быть больше нуля")
 	}
-	if time.ParseDuration(sliceData[2]) <= 0 {
-		fmt.Println("Время должно быть больше нуля")
-		return 0, "", 0, fmt.Errorf("Время должно быть больше нуля")
-	}
 	activityDuration, err := time.ParseDuration(sliceData[2])
 	if err != nil {
 		fmt.Println("Ошибка преобразования:", err)
