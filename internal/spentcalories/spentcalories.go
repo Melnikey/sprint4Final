@@ -20,8 +20,8 @@ const (
 
 // parseTraining принимает строку с данными и возвращает количество шагов, тип активности, время активности
 func parseTraining(data string) (int, string, time.Duration, error) {
-	dataWithoutSpaces := strings.Replace(data, " ", "", -1)
-	sliceData := strings.Split(dataWithoutSpaces, ",")
+	
+	sliceData := strings.Split(data, ",")
 	if len(sliceData) != 3 {
 		fmt.Println("Неверная длина слайса")
 		return 0, "", 0, fmt.Errorf("неверная длина данных")

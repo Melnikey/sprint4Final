@@ -20,8 +20,7 @@ const (
 
 // parsePackage принимает строку, возвращает количество шагов и продолжительность прогулки
 func parsePackage(data string) (int, time.Duration, error) {
-	separator := ","
-	sliceData := strings.Split(data, separator)
+	sliceData := strings.Split(data, ",")
 	if len(sliceData) != 2 {
 		fmt.Println("Неверная длина слайса")
 		return 0, 0, fmt.Errorf("неверная длина данных")
